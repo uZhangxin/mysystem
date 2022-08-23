@@ -33,14 +33,22 @@
 </template>
 
 <script>
+import {request} from '../network/request'
+import axios from "axios";
+
 export default {
   name: "login",
   data() {
     return {
       loginInfo: {
+        // 用户名
         userName: '',
+        // 密码
         password: '',
+        // 验证码
         code: '',
+        // 随机数，用于获取redis中code
+        uuid: '',
       },
 
       loginRules: {
@@ -58,7 +66,7 @@ export default {
   },
 
   created() {
-
+    this.getCode();
   },
 
   methods: {
@@ -72,7 +80,12 @@ export default {
       })
     },
 
+    //获取验证码
+    getCode() {
+      request({url: '/api/captchaImage', method: 'GET'}).then(result => {
 
+      })
+    }
   }
 }
 </script>

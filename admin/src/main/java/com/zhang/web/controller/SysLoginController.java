@@ -2,17 +2,14 @@ package com.zhang.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zhang.web.common.AjaxResult;
-import com.zhang.web.common.CommonInfo;
 import com.zhang.web.common.HttpStatus;
 import com.zhang.web.entity.SysUser;
 import com.zhang.web.model.LoginBody;
 
 import com.zhang.web.service.ISysUserService;
-import com.zhang.web.service.SysLoginService;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -39,5 +36,10 @@ public class SysLoginController {
             return ajaxResult;
         }
         return AjaxResult.success();
+    }
+
+    @GetMapping("/captchaImage")
+    public AjaxResult getCodeImg(){
+        return null;
     }
 }
