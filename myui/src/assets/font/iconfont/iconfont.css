@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3520807 */
+  src: url('iconfont.woff2?t=1661182929693') format('woff2'),
+       url('../../../../../../../../迅雷下载/font_3520807_zwwfsnufu7f/iconfont.woff?t=1661182929693') format('woff'),
+       url('../../../../../../../../迅雷下载/font_3520807_zwwfsnufu7f/iconfont.ttf?t=1661182929693') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-yanzhengma:before {
+  content: "\e614";
+}
+
+.icon-yonghu:before {
+  content: "\e658";
+}
+
+.icon-mima:before {
+  content: "\e68c";
+}
+
