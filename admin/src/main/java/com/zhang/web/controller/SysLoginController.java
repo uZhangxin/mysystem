@@ -11,10 +11,12 @@ import com.zhang.web.entity.SysUser;
 import com.zhang.web.model.LoginBody;
 
 import com.zhang.web.service.ISysUserService;
+import com.zhang.web.service.SysLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -43,6 +45,9 @@ public class SysLoginController {
     @Autowired
     private RedisCache redisCache;
 
+    @Autowired
+    SysLoginService sysLoginService;
+
 
     /**
      * 验证登录
@@ -51,18 +56,9 @@ public class SysLoginController {
      * @return
      */
     @PostMapping("/login")
-    public AjaxResult login(LoginBody loginBody) {
-        AjaxResult ajaxResult = AjaxResult.success();
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_name", loginBody.getUserName())
-                .eq("password", loginBody.getPassword());
-        SysUser user = userService.getOne(queryWrapper);
-        if (user == null) {
-            ajaxResult.put("code", HttpStatus.ACCEPTED);
-            ajaxResult.put("msg", "用户名密码不正确");
-            return ajaxResult;
-        }
-        return AjaxResult.success();
+    public AjaxResult login(@RequestBody LoginBody loginBody) {
+        AjaxResult ajaxResult = sysLoginService.login(loginBody.getUserName(), loginBody.getPassword(), loginBody.getCode(), loginBody.getUuid());
+        return ajaxResult;
     }
 
     /**

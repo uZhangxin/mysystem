@@ -80,27 +80,24 @@ export default {
         if (!valid) {
           return;
         }
+        request({url: '/api/login', method: 'POST', data: this.loginForm}).then(result => {
+          console.log(result);
+        })
       })
     },
 
     //获取验证码
     getCode() {
       request({url: '/api/captchaImage', method: 'GET'}).then(result => {
-        console.log(result);
         this.codeUrl = "data:image/gif;base64," + result.data.img;
-        console.log(this.codeUrl);
         this.loginForm.uuid = result.data.uuid;
-
       })
     }
-
-
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .login-box {
   display: flex;
   justify-content: center;
@@ -134,7 +131,7 @@ export default {
       float: right;
       width: 33%;
 
-      .login-code-img{
+      .login-code-img {
         height: 100%;
         width: 100%;
         cursor: pointer;
@@ -146,6 +143,4 @@ export default {
     }
   }
 }
-
-
 </style>
