@@ -1,4 +1,4 @@
-package com.zhang.web.common;
+package com.zhang.web.common.constant;
 
 /**
  * @Author: zhangxin

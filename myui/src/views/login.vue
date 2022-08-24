@@ -1,25 +1,25 @@
 <template>
   <!--登录模块-->
   <div class="login-box">
-    <el-form class="login-form" :model="loginInfo" ref="loginInfo" :rules="loginRules">
+    <el-form class="login-form" :model="loginForm" ref="loginForm" :rules="loginRules">
       <h3 class="title">后台管理系统</h3>
 
       <!--用户名-->
       <el-form-item prop="userName">
-        <el-input prefix-icon="iconfont icon-yonghu" v-model="loginInfo.userName" placeholder="请输入账号"></el-input>
+        <el-input prefix-icon="iconfont icon-yonghu" v-model="loginForm.userName" placeholder="请输入账号"></el-input>
       </el-form-item>
 
       <!--密码-->
       <el-form-item prop="password">
-        <el-input prefix-icon="iconfont icon-mima" v-model="loginInfo.password" placeholder="请输入密码"></el-input>
+        <el-input prefix-icon="iconfont icon-mima" v-model="loginForm.password" placeholder="请输入密码"></el-input>
       </el-form-item>
 
       <!--验证码-->
       <el-form-item prop="code">
-        <el-input prefix-icon="iconfont icon-yanzhengma" class="login-code-input" v-model="loginInfo.code"
+        <el-input prefix-icon="iconfont icon-yanzhengma" class="login-code-input" v-model="loginForm.code"
                   placeholder="请输入验证码"></el-input>
         <div class="login-code-div">
-          <img src=""/>
+          <img :src="codeUrl" @click="getCode" class="login-code-img"/>
         </div>
 
       </el-form-item>
@@ -40,7 +40,8 @@ export default {
   name: "login",
   data() {
     return {
-      loginInfo: {
+      //登录信息
+      loginForm: {
         // 用户名
         userName: '',
         // 密码
@@ -50,6 +51,8 @@ export default {
         // 随机数，用于获取redis中code
         uuid: '',
       },
+      // 验证码图片流地址
+      codeUrl: "",
 
       loginRules: {
         userName: [
@@ -72,7 +75,7 @@ export default {
   methods: {
     // 点击登录按钮
     loginBtn() {
-      this.$refs.loginInfo.validate(valid => {
+      this.$refs.loginForm.validate(valid => {
         // 验证不符合格式
         if (!valid) {
           return;
@@ -83,9 +86,15 @@ export default {
     //获取验证码
     getCode() {
       request({url: '/api/captchaImage', method: 'GET'}).then(result => {
+        console.log(result);
+        this.codeUrl = "data:image/gif;base64," + result.data.img;
+        console.log(this.codeUrl);
+        this.loginForm.uuid = result.data.uuid;
 
       })
     }
+
+
   }
 }
 </script>
@@ -124,6 +133,12 @@ export default {
     .login-code-div {
       float: right;
       width: 33%;
+
+      .login-code-img{
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+      }
     }
 
     .el-button {

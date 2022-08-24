@@ -1,11 +1,11 @@
-package com.zhang.web.common;
+package com.zhang.web.common.constant;
 
 /**
  * @Author: zhangxin
  * @Date: 2022/8/10 16:27
  * @Description: 通用信息
  */
-public class CommonInfo {
+public class ConstantInfo {
     /**
      * UTF-8 字符集
      */
