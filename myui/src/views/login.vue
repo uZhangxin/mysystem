@@ -25,7 +25,10 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="loginBtn">登录</el-button>
+        <el-button type="primary" @click="loginBtn" :disabled="loading">
+          <span v-if="!loading">登 录</span>
+          <span v-else>登 录 中...</span>
+        </el-button>
       </el-form-item>
 
     </el-form>
@@ -34,7 +37,8 @@
 
 <script>
 import {request} from '../network/request'
-import axios from "axios";
+import {getModal} from "../utils/modal";
+import {CODE} from "../utils/code";
 
 export default {
   name: "login",
@@ -65,6 +69,8 @@ export default {
           {required: true, trigger: "change", message: "请输入验证码"}
         ]
       },
+
+      loading: false,
     }
   },
 
@@ -80,8 +86,14 @@ export default {
         if (!valid) {
           return;
         }
+        this.loading = true;
         request({url: '/api/login', method: 'POST', data: this.loginForm}).then(result => {
-          console.log(result);
+          getModal(result.data.code, CODE.MODAL_TYPE.MESSAGE, result.data.msg);
+          //登录失败，刷新验证码
+          if (result.data.code != CODE.HTTP_CODE.SUCCESS) {
+            this.loading = false;
+            this.getCode();
+          }
         })
       })
     },
