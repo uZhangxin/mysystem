@@ -1,17 +1,15 @@
 package com.zhang.web.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.code.kaptcha.Producer;
 import com.zhang.web.common.AjaxResult;
 import com.zhang.web.common.RedisCache;
 import com.zhang.web.common.constant.CacheConstants;
 import com.zhang.web.common.constant.ConstantInfo;
-import com.zhang.web.common.constant.HttpStatus;
-import com.zhang.web.entity.SysUser;
 import com.zhang.web.model.LoginBody;
 
 import com.zhang.web.service.ISysUserService;
 import com.zhang.web.service.SysLoginService;
+import com.zhang.web.utils.uuid.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +21,6 @@ import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -70,7 +67,7 @@ public class SysLoginController {
     public AjaxResult getCodeImg() {
         AjaxResult ajaxResult = AjaxResult.success();
         // 生成redis key
-        String uuid = UUID.randomUUID().toString();
+        String uuid = IdUtils.simpleUUID();
         String codeKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
         // 表达式图片流
         BufferedImage image = null;
