@@ -1,6 +1,6 @@
 package com.zhang.web.utils.uuid;
 
-import com.ruoyi.common.exception.UtilException;
+import com.zhang.web.exception.UtilException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
