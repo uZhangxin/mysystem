@@ -12,10 +12,7 @@ import com.zhang.web.service.SysLoginService;
 import com.zhang.web.utils.uuid.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FastByteArrayOutputStream;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -59,27 +56,41 @@ public class SysLoginController {
     }
 
     /**
-     * 生成验证码
-     *
+     * @param codeType 验证码类型，0:运算，1:文本
      * @return
      */
     @GetMapping("/captchaImage")
-    public AjaxResult getCodeImg() {
+    public AjaxResult getCodeImg(Integer codeType) {
         AjaxResult ajaxResult = AjaxResult.success();
         // 生成redis key
         String uuid = IdUtils.simpleUUID();
         String codeKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
         // 表达式图片流
         BufferedImage image = null;
-        String capText = captchaProducerMath.createText();
-        // 获取验证码文本
-        String capStr = capText.substring(0, capText.lastIndexOf("@"));
-        // 获取验证码表达式
-        String code = capText.substring(capText.lastIndexOf("@") + 1);
-        // 获取表达式结果即验证码
-        image = captchaProducerMath.createImage(capStr);
+        // 验证码文本
+        String capText = null;
+        // 验证码结果
+        String result = null;
+        // 生成运算式验证码
+        if (codeType == 0) {
+            // 生成运算式验证码文本，6-1=?@5
+            capText = captchaProducerMath.createText();
+            // 获取运算表达式
+            String capStr = capText.substring(0, capText.lastIndexOf("@"));
+            // 获取运算结果
+            result = capText.substring(capText.lastIndexOf("@") + 1);
+            // 生成运算式验证码图片
+            image = captchaProducerMath.createImage(capStr);
+        }
+        // 生成文本验证码
+        if (codeType == 1) {
+            // 生成文本式验证码文本
+            result = captchaProducer.createText();
+            // 生成文本式验证码图片
+            image = captchaProducer.createImage(result);
+        }
         // 将验证码值存入Redis并设置有效时间为
-        redisCache.setCacheObject(codeKey, code, ConstantInfo.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+        redisCache.setCacheObject(codeKey, result, ConstantInfo.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {

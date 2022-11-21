@@ -66,7 +66,9 @@ public class SysLoginService {
         ajaxResult = AjaxResult.success();
         ajaxResult.put("msg","登录成功！");
 
+        // token包含内容
         LoginUser loginUser = new LoginUser();
+        loginUser.setUser(user);
         // 生成token令牌
         String token = tokenService.createToken(loginUser);
         ajaxResult.put(ConstantInfo.TOKEN,token);

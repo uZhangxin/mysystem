@@ -1,8 +1,8 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 3520807 */
-  src: url('iconfont.woff2?t=1661182929693') format('woff2'),
-       url('../../../../../../../../迅雷下载/font_3520807_zwwfsnufu7f/iconfont.woff?t=1661182929693') format('woff'),
-       url('../../../../../../../../迅雷下载/font_3520807_zwwfsnufu7f/iconfont.ttf?t=1661182929693') format('truetype');
+    font-family: "iconfont"; /* Project id 3520807 */
+    src: url('iconfont.woff2?t=1661182929693') format('woff2'),
+    url('./iconfont.woff?t=1661182929693') format('woff'),
+    url('./iconfont.ttf?t=1661182929693') format('truetype');
 }
 
 .iconfont {
